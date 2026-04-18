@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الطالب - كلية القلم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding-bottom: 70px; }
+        .top-bar { background: #1a1a1a; color: #d4af37; padding: 15px; text-align: center; font-weight: bold; border-bottom: 3px solid #d4af37; }
+        
+        /* بطاقة المعلومات الشخصية */
+        .profile-card { background: white; margin: 15px; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+        .profile-card i { font-size: 50px; color: #1a1a1a; margin-bottom: 10px; }
+        .student-name { font-size: 1.2rem; font-weight: bold; color: #333; }
+        .student-id { color: #b8860b; font-size: 0.9rem; margin-top: 5px; }
+
+        /* حالة التسجيل */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 15px; }
+        .info-item { background: #fff; padding: 15px; border-radius: 10px; border-right: 4px solid #d4af37; }
+        .info-label { font-size: 0.75rem; color: #888; }
+        .info-value { font-size: 1rem; font-weight: bold; color: #1a1a1a; }
+
+        /* جدول المواد الدراسية */
+        .data-section { background: white; margin: 15px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .section-title { background: #f8f9fa; padding: 12px; font-weight: bold; border-bottom: 1px solid #eee; color: #1a1a1a; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #fafafa; padding: 12px; text-align: right; font-size: 0.85rem; color: #666; }
+        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+        .course-code { color: #c0392b; font-weight: bold; }
+
+        /* تنبيه هائل */
+        .alert { background: #fff3cd; color: #856404; margin: 15px; padding: 12px; border-radius: 10px; border: 1px solid #ffeeba; font-size: 0.85rem; line-height: 1.5; }
+
+        /* الملاحة السفلية */
+        .nav-bottom { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; }
+        .nav-link { text-align: center; color: #666; text-decoration: none; font-size: 0.7rem; }
+        .nav-link i { display: block; font-size: 1.3rem; margin-bottom: 2px; }
+        .active-link { color: #d4af37; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">كلية القلم للعلوم والتكنولوجيا</div>
+
+    <div class="profile-card">
+        <i class="fas fa-user-circle"></i>
+        <div class="student-name">مصعب العاقب محمد أحمد</div>
+        <div class="student-id">رقم الطالب: 25-31001418</div>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="info-label">الخطة المحتملة</div>
+            <div class="info-value">245</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">الرقم الدراسي</div>
+            <div class="info-value">1</div>
+        </div>
+    </div>
+
+    <div class="alert">
+        <i class="fas fa-info-circle"></i> 
+        تنبيه: يجب على الطالب تغيير كلمة المرور عند الدخول لأول مرة للنظام لضمان أمان البيانات.
+    </div>
+
+    <div class="data-section">
+        <div class="section-title">المقررات المسجلة - الفصل الدراسي الحالي</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>اسم المقرر</th>
+                    <th>الرمز</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>أساسيات تقانة المعلومات</td><td class="course-code">ITS111</td></tr>
+                <tr><td>استخدام نظم التشغيل</td><td class="course-code">ITS112</td></tr>
+                <tr><td>اللغة العربية (1)</td><td class="course-code">URS113</td></tr>
+                <tr><td>الثقافة الإسلامية (1)</td><td class="course-code">URS115</td></tr>
+                <tr><td>مبادئ الحسبان</td><td class="course-code">MAT117</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <nav class="nav-bottom">
+        <a href="#" class="nav-link active-link"><i class="fas fa-home"></i>الرئيسية</a>
+        <a href="#" class="nav-link"><i class="fas fa-book"></i>التسجيل</a>
+        <a href="#" class="nav-link"><i class="fas fa-wallet"></i>الرسوم</a>
+        <a href="#" class="nav-link"><i class="fas fa-id-card"></i>الملف</a>
+    </nav>
+
+</body>
+</html>
