@@ -3,63 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة طالب كلية القلم</title>
+    <title>تسجيل الدخول - كلية القلم</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; margin: 0;
-        }
-        .login-card {
-            background: white; padding: 30px; border-radius: 20px;
-            width: 90%; max-width: 380px; text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-        }
-        .logo-container {
-            width: 110px; height: 110px; background: #000;
-            border-radius: 50%; margin: -80px auto 20px;
-            display: flex; justify-content: center; align-items: center;
-            border: 4px solid #d4af37; overflow: hidden;
-        }
-        .logo-container img { width: 90%; height: auto; }
-        .bismillah { font-size: 1rem; color: #888; margin-bottom: 5px; }
-        .welcome-text { font-size: 1.25rem; color: #1a1a1a; font-weight: bold; margin: 5px 0; }
-        .college-name { color: #b8860b; font-weight: 600; margin-bottom: 25px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; }
+        .logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #d4af37; margin: -70px auto 20px; background: #000; overflow: hidden; }
+        .logo img { width: 100%; height: 100%; object-fit: cover; }
         .input-group { text-align: right; margin-bottom: 15px; }
-        .input-group label { display: block; margin-bottom: 5px; font-weight: 600; }
-        .input-group input {
-            width: 100%; padding: 12px; border-radius: 10px;
-            border: 1px solid #ddd; box-sizing: border-box;
-        }
-        .login-btn {
-            width: 100%; padding: 14px; background: #1a1a1a;
-            color: #d4af37; border: 1px solid #d4af37;
-            border-radius: 10px; font-weight: bold; cursor: pointer;
-            text-decoration: none; display: block; margin-top: 10px;
-        }
+        input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; }
+        .login-btn { width: 100%; padding: 14px; background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .error { color: red; font-size: 0.8rem; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
     <div class="login-card">
-        <div class="logo-container">
-            <img src="logo.jpg" alt="Logo">
+        <div class="logo"><img src="logo.jpg"></div>
+        <h3>منصة طالب كلية القلم</h3>
+        <div class="input-group">
+            <label>اسم المستخدم</label>
+            <input type="text" id="username" placeholder="12345678">
         </div>
-        <div class="bismillah">بسم الله الرحمن الرحيم</div>
-        <h2 class="welcome-text">مرحباً بك في منصة الطالب</h2>
-        <div class="college-name">كلية القلم للعلوم والتكنولوجيا</div>
-        
-        <form action="dashboard.html">
-            <div class="input-group">
-                <label>الرقم الجامعي</label>
-                <input type="text" placeholder="أدخل رقمك الجامعي" required>
-            </div>
-            <div class="input-group">
-                <label>كلمة المرور</label>
-                <input type="password" placeholder="••••••••" required>
-            </div>
-            <button type="submit" class="login-btn">دخول للمنصة</button>
-        </form>
+        <div class="input-group">
+            <label>كلمة المرور</label>
+            <input type="password" id="password" placeholder="00000000">
+        </div>
+        <button class="login-btn" onclick="login()">دخول للمنصة</button>
+        <p id="error-msg" class="error">بيانات الدخول غير صحيحة!</p>
     </div>
+
+    <script>
+        function login() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            // التحقق من البيانات الافتراضية أو البيانات التي غيرها المستخدم
+            const savedUser = localStorage.getItem('app_user') || '12345678';
+            const savedPass = localStorage.getItem('app_pass') || '00000000';
+
+            if (user === savedUser && pass === savedPass) {
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = 'dashboard.html';
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>
