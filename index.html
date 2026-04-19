@@ -105,7 +105,7 @@
                     uiLoginBtn.innerText = currentLang === 'ar' ? "دخول للمنصة" : "Access Platform";
                 }
             } catch (error) {
-                alert(currentLang === 'ar' ? "فشل الاتصال بالسيرفر! تأكد أن Termux يعمل" : "Server Connection Failed!");
+                alert(currentLang === 'ar' ? "فشل الاتصال بسيرفر Vercel! راجع الإنترنت" : "Vercel Server Connection Failed! Check Internet");
                 uiLoginBtn.innerText = currentLang === 'ar' ? "دخول للمنصة" : "Access Platform";
             }
         }
