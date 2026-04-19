@@ -3,124 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم المطورة - كلية القلم</title>
+    <title>منصة كلية القلم المتكاملة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #d4af37; --dark: #1a1a1a; --soft-bg: #f8f9fa; --text: #333; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f2f5; margin: 0; padding-bottom: 80px; transition: 0.3s; }
+        :root { --gold: #d4af37; --dark: #1a1a1a; --light: #ffffff; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f6f9; margin: 0; padding-bottom: 80px; overflow-x: hidden; }
         
-        /* الهيدر */
-        .header { background: var(--dark); color: var(--gold); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .header i { font-size: 1.4rem; cursor: pointer; }
-
-        /* القائمة الجانبية (Sidebar) */
+        /* Header */
+        .header { background: var(--dark); color: var(--gold); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        
+        /* Sidebar */
         .sidebar { height: 100%; width: 0; position: fixed; z-index: 2000; top: 0; right: 0; background-color: white; overflow-x: hidden; transition: 0.5s; padding-top: 60px; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
-        .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 1.1rem; color: var(--text); display: block; border-bottom: 1px solid #eee; transition: 0.3s; }
-        .sidebar a:hover { background: #f9f9f9; color: var(--gold); }
-        .sidebar .closebtn { position: absolute; top: 10px; left: 25px; font-size: 36px; color: var(--dark); }
+        .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 1.1rem; color: #333; display: block; border-bottom: 1px solid #eee; }
 
-        /* قسم البروفايل */
+        /* Profile Card */
         .profile-card { background: white; margin: 15px; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .logo-container { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 10px; overflow: hidden; }
+        .logo-container { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 10px; overflow: hidden; }
         .logo-container img { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* شبكة الأيقونات الجديدة */
+
+        /* Icon Grid */
         .icon-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 15px; }
-        .icon-item { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: 0.3s; }
-        .icon-item i { font-size: 1.8rem; color: var(--dark); margin-bottom: 10px; display: block; }
-        .icon-item span { font-size: 0.9rem; font-weight: bold; }
+        .icon-item { background: white; padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; }
+        .icon-item i { font-size: 1.8rem; color: var(--dark); margin-bottom: 8px; display: block; }
 
-        /* الجدول الدراسي بألوان هادئة */
-        .schedule-section { background: white; margin: 15px; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .table-header { background: #f8f9fa; padding: 15px; font-weight: bold; border-bottom: 2px solid var(--gold); }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th { background: #fdfdfd; padding: 12px; font-size: 0.8rem; color: #777; border-bottom: 1px solid #eee; }
-        td { padding: 15px 10px; font-size: 0.85rem; border-bottom: 1px solid #f9f9f9; text-align: center; }
-        .day-cell { font-weight: bold; color: var(--dark); background: #fcfcfc; }
-        .course-name { color: #555; }
+        /* Modal Style (النوافذ المنبثقة) */
+        .modal { display: none; position: fixed; z-index: 3000; right: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); }
+        .modal-content { background: white; margin: 10% auto; padding: 20px; width: 85%; border-radius: 20px; max-height: 80vh; overflow-y: auto; position: relative; }
+        .close { position: absolute; left: 20px; top: 10px; font-size: 28px; font-weight: bold; }
 
-        /* نبذة عن الكلية */
-        .about-college { background: #1a1a1a; color: #ccc; margin: 15px; padding: 20px; border-radius: 15px; font-size: 0.85rem; line-height: 1.6; }
-        .about-college h3 { color: var(--gold); margin-top: 0; }
+        /* Table Style */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
+        th, td { border: 1px solid #eee; padding: 10px; text-align: center; }
+        th { background: #fafafa; color: var(--gold); }
+        .day-header { background: #1a1a1a; color: white; font-weight: bold; }
 
-        .logout-btn { background: #c0392b; color: white; margin: 20px 15px; padding: 15px; border-radius: 12px; text-align: center; text-decoration: none; display: block; font-weight: bold; }
+        /* Inputs */
+        input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .save-btn { background: var(--dark); color: var(--gold); border: 1px solid var(--gold); padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body onload="checkAccess()">
 
     <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#"><i class="fas fa-edit"></i> التسجيل</a>
-        <a href="#"><i class="fas fa-wallet"></i> الرسوم</a>
-        <a href="#"><i class="fas fa-user"></i> الملف الشخصي</a>
-        <a href="#"><i class="fas fa-poll"></i> النتائج</a>
+        <a href="javascript:void(0)" onclick="closeNav()" style="font-size: 30px;">&times;</a>
+        <a href="#" onclick="openModal('modalSettings')"><i class="fas fa-key"></i> تغيير بيانات الدخول</a>
+        <a href="#" onclick="openModal('modalFees')"><i class="fas fa-wallet"></i> الرسوم</a>
+        <a href="#" onclick="openModal('modalProfile')"><i class="fas fa-user-edit"></i> الملف الشخصي</a>
+        <a href="#" onclick="openModal('modalResults')"><i class="fas fa-poll"></i> النتائج</a>
     </div>
 
     <div class="header">
-        <i class="fas fa-ellipsis-v" onclick="openNav()"></i> <span>منصة طالب كلية القلم</span>
+        <i class="fas fa-ellipsis-v" onclick="openNav()"></i>
+        <span>لوحة الطالب - كلية القلم</span>
         <i class="fas fa-clock" id="timer"> 00:00</i>
     </div>
 
     <div class="profile-card">
         <div class="logo-container"><img src="logo.jpg"></div>
         <h2 id="display-name">جاري التحميل...</h2>
-        <p id="display-id" style="color: var(--gold); font-size: 0.9rem;"></p>
+        <p id="display-id" style="color: var(--gold);"></p>
     </div>
 
     <div class="icon-grid">
-        <div class="icon-item"><i class="fas fa-chart-line" style="color: #27ae60;"></i><span>النتيجة التراكمية</span></div>
-        <div class="icon-item"><i class="fas fa-exclamation-circle" style="color: #e67e22;"></i><span>الملاحق</span></div>
-        <div class="icon-item"><i class="fas fa-exchange-alt" style="color: #2980b9;"></i><span>البدائل</span></div>
-        <div class="icon-item"><i class="fas fa-file-alt"></i><span>تفاصيل أخرى</span></div>
+        <div class="icon-item" onclick="openModal('modalAbout')"><i class="fas fa-university" style="color: #d4af37;"></i><span>نبذة عن الكلية</span></div>
+        <div class="icon-item" onclick="openModal('modalSchedule')"><i class="fas fa-calendar-alt" style="color: #2980b9;"></i><span>الجدول الدراسي</span></div>
+        <div class="icon-item" onclick="openModal('modalResults')"><i class="fas fa-chart-bar" style="color: #27ae60;"></i><span>النتائج التراكمية</span></div>
+        <div class="icon-item" onclick="openModal('modalExtra')"><i class="fas fa-info-circle" style="color: #e67e22;"></i><span>تفاصيل أخرى</span></div>
     </div>
 
-    <div class="schedule-section">
-        <div class="table-header"><i class="fas fa-calendar-day"></i> الجدول الدراسي الأسبوعي</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>اليوم</th>
-                    <th>8:00 - 10:00</th>
-                    <th>10:00 - 12:00</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="day-cell">الأحد</td>
-                    <td class="course-name">أساسيات تقانة المعلومات</td>
-                    <td class="course-name">استخدام نظم التشغيل</td>
-                </tr>
-                <tr>
-                    <td class="day-cell">الاثنين</td>
-                    <td class="course-name">اللغة العربية (1)</td>
-                    <td class="course-name">الثقافة الإسلامية (1)</td>
-                </tr>
-                <tr>
-                    <td class="day-cell">الأربعاء</td>
-                    <td class="course-name">مبادئ الحسبان</td>
-                    <td class="course-name">لغة إنجليزية (1)</td>
-                </tr>
-            </tbody>
-        </table>
+    <div id="modalAbout" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalAbout')">&times;</span>
+            <h3 style="color: var(--gold);">نبذة عن الكلية</h3>
+            <p style="font-size: 0.9rem; line-height: 1.6; text-align: justify;">
+                كلية القلم للعلوم والتكنولوجيا هي مؤسسة تعليم عالي خاصة ومعتمدة في السودان، تقع في أمدرمان (شارع الموردة) وتتبع لوزارة التعليم العالي والبحث العلمي. تقدم الكلية برامج بكالوريوس في مجالات الطب، العلوم الطبية، الدراسات الإسلامية، والإدارة، وتتميز بتركيزها على التدريب المهني والمسؤولية المجتمعية.
+                <br><br><b>أبرز التخصصات:</b><br>
+                الطب والجراحة - علوم المختبرات - التمريض - الدراسات الإسلامية - إدارة الأعمال والمحاسبة - علوم الأغذية والزراعة.
+            </p>
+        </div>
     </div>
 
-    <div class="about-college">
-        <h3>عن الكلية</h3>
-        تعتبر كلية القلم للعلوم والتكنولوجيا من المؤسسات الرائدة في السودان، تهدف إلى تقديم تعليم متميز في مجالات الهندسة، تقانة المعلومات، والعلوم الإدارية، مع التركيز على الجانب التطبيقي لمواكبة سوق العمل العالمي.
+    <div id="modalSchedule" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalSchedule')">&times;</span>
+            <h3>الجدول الدراسي المحدث</h3>
+            <table>
+                <tr><th>اليوم</th><th>المحاضرة 1 & 2</th><th>المحاضرة 3 & 4</th></tr>
+                <tr class="day-header"><td colspan="3">الأحد</td></tr>
+                <tr><td>8-12</td><td>أساسيات تقانة المعلومات</td><td>استخدام نظم التشغيل</td></tr>
+                <tr class="day-header"><td colspan="3">الاثنين</td></tr>
+                <tr><td>8-12</td><td>اللغة العربية (1)</td><td>الثقافة الإسلامية (1)</td></tr>
+                <tr class="day-header"><td colspan="3">الأربعاء</td></tr>
+                <tr><td>8-12</td><td>مبادئ الحسبان</td><td>لغة إنجليزية (1)</td></tr>
+            </table>
+        </div>
     </div>
 
-    <a href="#" onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+    <div id="modalFees" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalFees')">&times;</span>
+            <h3>تفاصيل الرسوم الدراسية</h3>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 10px;">
+                <p><b>رسوم التسجيل:</b> 150,000 ج.س</p>
+                <p><b>رسوم الدراسة:</b> 750,000 ج.س</p>
+                <hr>
+                <p style="color: green;"><b>الإجمالي:</b> 900,000 ج.س</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalProfile" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalProfile')">&times;</span>
+            <h3>تعديل الملف الشخصي</h3>
+            <label>الاسم الكامل</label><input type="text" id="edit-name">
+            <label>الرقم الجامعي</label><input type="text" id="edit-id">
+            <label>تاريخ الالتحاق</label><input type="date" id="edit-date">
+            <label>السكن</label><input type="text" id="edit-address">
+            <label>تاريخ الشهادة السودانية</label><input type="text" id="edit-cert">
+            <button class="save-btn" onclick="saveProfile()">حفظ البيانات</button>
+        </div>
+    </div>
+
+    <div id="modalResults" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalResults')">&times;</span>
+            <h3>نتائج الفصل الدراسي</h3>
+            <table>
+                <tr><th>المادة</th><th>الدرجة</th><th>التقدير</th></tr>
+                <tr><td>إحصاء وصفي</td><td>-</td><td>-</td></tr>
+                <tr><td>الدراسة السودانية</td><td>-</td><td>-</td></tr>
+                <tr><td>اللغة الإنجليزية</td><td>-</td><td>-</td></tr>
+                <tr><td>العلوم الإدارية</td><td>-</td><td>-</td></tr>
+                <tr><td>اللغة العربية</td><td>-</td><td>-</td></tr>
+                <tr><td>نظم التشغيل</td><td>-</td><td>-</td></tr>
+                <tr><td>أساسيات التقانة</td><td>-</td><td>-</td></tr>
+                <tr><td>مبادئ الاقتصاد</td><td>-</td><td>-</td></tr>
+                <tr><td>التربية الإسلامية</td><td>-</td><td>-</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="modalExtra" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalExtra')">&times;</span>
+            <h3>الطلبات الأكاديمية</h3>
+            <button class="save-btn" style="background: #e67e22; border: none; color: white;" onclick="alert('تم استلام طلب تجميد العام')">تجميد العام الدراسي</button>
+            <button class="save-btn" style="background: #c0392b; border: none; color: white;" onclick="confirm('هل أنت متأكد من تقديم الاستقالة؟')">تقديم استقالة</button>
+        </div>
+    </div>
 
     <script>
         function openNav() { document.getElementById("mySidebar").style.width = "250px"; }
         function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
+        function openModal(id) { document.getElementById(id).style.display = "block"; closeNav(); }
+        function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+        function saveProfile() {
+            localStorage.setItem('user_real_name', document.getElementById('edit-name').value);
+            localStorage.setItem('app_user', document.getElementById('edit-id').value);
+            localStorage.setItem('join_date', document.getElementById('edit-date').value);
+            localStorage.setItem('address', document.getElementById('edit-address').value);
+            localStorage.setItem('cert_date', document.getElementById('edit-cert').value);
+            alert("تم حفظ البيانات بنجاح!");
+            location.reload();
+        }
 
         function checkAccess() {
             if (localStorage.getItem('isLoggedIn') !== 'true') { window.location.href = 'index.html'; return; }
-            let name = localStorage.getItem('user_real_name') || "طالب كلية القلم";
-            let id = localStorage.getItem('app_user') || '12345678';
+            let name = localStorage.getItem('user_real_name') || "طالب مستجد";
+            let id = localStorage.getItem('app_user') || "لم يحدد";
             document.getElementById('display-name').innerText = name;
             document.getElementById('display-id').innerText = "الرقم الجامعي: " + id;
+            
+            // تعبئة الحقول في المودال بالقيم المخزنة
+            document.getElementById('edit-name').value = name;
+            document.getElementById('edit-id').value = id;
+            document.getElementById('edit-date').value = localStorage.getItem('join_date') || "";
+            document.getElementById('edit-address').value = localStorage.getItem('address') || "";
+            document.getElementById('edit-cert').value = localStorage.getItem('cert_date') || "";
             startTimer();
         }
 
