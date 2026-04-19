@@ -9,8 +9,8 @@
 
         :root {
             --gold: #d4af37;
-            --main-bg: linear-gradient(135deg, #e0f2f1 0%, #ffffff 100%); /* لون فرايحي */
-            --shadow-3d: 0 8px 0px #c0c0c0, 0 15px 20px rgba(0,0,0,0.1);
+            /* اللون الخلفية أصبح أغمق قليلاً مع ظل ذهبي خفيف حول العناصر */
+            --main-bg: linear-gradient(135deg, #b2dfdb 0%, #e0f2f1 100%); 
         }
 
         body { 
@@ -22,66 +22,90 @@
             align-items: center; 
             min-height: 100vh; 
             margin: 0; 
-            overflow: hidden;
         }
 
-        /* الوقت والتاريخ في الأعلى */
-        .date-time {
+        /* تغيير اللغة في الأعلى */
+        .lang-switch {
             position: absolute;
-            top: 20px;
-            text-align: center;
-            color: #555;
-            font-weight: bold;
-            font-size: 0.9rem;
+            top: 15px;
+            left: 15px;
+            display: flex;
+            gap: 5px;
         }
+        .lang-btn {
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 0px #ccc;
+        }
+        .ar { background: var(--gold); color: white; }
+        .en { background: #2c3e50; color: white; }
 
-        /* الآية القرآنية بخط الرقعة خارج المربع */
+        /* الآية القرآنية مرفوعة للأعلى تماماً بخط الرقعة */
         .quran-verse { 
             font-family: 'Aref Ruqaa', serif;
             color: var(--gold); 
-            font-size: 1.8rem; 
-            margin-bottom: 20px; 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: 1.9rem; 
+            margin-bottom: 40px; /* زيادة المسافة لضمان عدم التداخل */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            z-index: 10;
         }
 
         .login-card { 
             background: white; 
             padding: 40px 30px; 
-            border-radius: 30px; 
+            border-radius: 35px; 
             width: 85%; 
             max-width: 380px; 
             text-align: center; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+            /* إضافة ظل ذهبي خفيف حول المربع */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1), 0 0 15px rgba(212, 175, 55, 0.3);
             position: relative;
         }
         
+        /* تكبير شعار الكلية ليملأ الدائرة */
         .logo { 
-            width: 110px; height: 110px; 
+            width: 125px; height: 125px; 
             border-radius: 50%; 
             border: 4px solid var(--gold); 
-            margin: -95px auto 20px; 
+            margin: -105px auto 15px; 
             background: white; 
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; /* يضمن اختفاء أطراف المربع */
         }
-        .logo img { width: 85%; }
+        .logo img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* جعل الصورة تملأ الدائرة بالكامل */
+        }
 
-        .input-group { margin-bottom: 25px; text-align: right; }
+        /* الوقت والتاريخ تحت الشعار */
+        .date-time {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1rem;
+            text-shadow: 0.5px 0.5px 0px rgba(0,0,0,0.1);
+        }
+
+        .input-group { margin-bottom: 20px; text-align: right; }
         
-        /* تصميم 3D للخانات */
         input { 
             width: 100%; padding: 15px; 
             border-radius: 15px; 
-            border: 1px solid #eee; 
+            border: 1px solid #ddd; 
             box-sizing: border-box; 
             font-size: 1rem;
-            background: #f9f9f9;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05), 0 5px 0px #e0e0e0;
+            background: #fdfdfd;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 6px 0px #e0e0e0;
             transition: 0.2s;
         }
-        input:focus { transform: translateY(2px); box-shadow: 0 2px 0px #e0e0e0; outline: none; }
+        input:focus { transform: translateY(2px); box-shadow: 0 3px 0px #e0e0e0; outline: none; }
 
-        /* زر دخول 3D عصري */
         .login-btn { 
             width: 100%; padding: 18px; 
             background: #2c3e50; 
@@ -91,37 +115,40 @@
             font-weight: bold; 
             font-size: 1.3rem; 
             cursor: pointer; 
-            box-shadow: 0 8px 0px #1a252f, 0 15px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 0px #1a252f, 0 12px 20px rgba(0,0,0,0.2);
             transition: 0.1s;
         }
         .login-btn:active { transform: translateY(5px); box-shadow: 0 3px 0px #1a252f; }
 
-        /* التوقيع السفلي */
         .falcon-brand {
-            margin-top: 30px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #7f8c8d;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+            margin: 25px 0;
+            color: #5d6d6e;
+            font-size: 0.9rem;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="date-time" id="clock"></div>
+    <div class="lang-switch">
+        <button class="lang-btn ar">AR</button>
+        <button class="lang-btn en">EN</button>
+    </div>
 
     <div class="quran-verse">وَقُل رَّبِّ زِدْنِي عِلْمًا</div>
 
     <div class="login-card">
         <div class="logo"><img src="logo.jpg"></div>
-        <h3 style="color: #333; margin-bottom: 30px;">منصة طالب كلية القلم</h3>
+        
+        <div class="date-time" id="clock"></div>
+        
+        <h3 style="color: #333; margin: 0 0 25px 0;">منصة طالب كلية القلم</h3>
         
         <div class="input-group">
-            <input type="text" id="username" placeholder="اسم المستخدم (12345678)">
+            <input type="text" id="username" placeholder="اسم المستخدم 12345678">
         </div>
         <div class="input-group">
-            <input type="password" id="password" placeholder="كلمة المرور (00000000)">
+            <input type="password" id="password" placeholder="كلمة المرور 00000000">
         </div>
         
         <button class="login-btn" onclick="login()">دخول للمنصة</button>
@@ -130,26 +157,24 @@
     <div class="falcon-brand">نموذج Falcon التجريبي</div>
 
     <script>
-        // تحديث الوقت والتاريخ
         function updateClock() {
             const now = new Date();
             const days = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
             const dateStr = days[now.getDay()] + ' ' + now.toLocaleDateString('ar-EG');
-            const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
             document.getElementById('clock').innerHTML = dateStr + ' | ' + timeStr;
         }
-        setInterval(updateClock, 1000);
+        setInterval(updateClock, 60000);
         updateClock();
 
         function login() {
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
-            // بيانات افتراضية للتجربة
             if (user === '12345678' && pass === '00000000') {
                 localStorage.setItem('isLoggedIn', 'true');
                 window.location.href = 'dashboard.html';
             } else {
-                alert('عذراً، بيانات الدخول غير صحيحة');
+                alert('بيانات الدخول غير صحيحة');
             }
         }
     </script>
