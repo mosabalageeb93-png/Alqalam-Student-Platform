@@ -6,26 +6,33 @@
     <title>تسجيل الدخول - كلية القلم</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .login-card { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; }
-        .logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #d4af37; margin: -70px auto 20px; background: #000; overflow: hidden; }
+        .login-card { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        /* الآية القرآنية باللون الذهبي */
+        .quran-verse { color: #d4af37; font-size: 1.4rem; font-weight: bold; margin-bottom: 50px; display: block; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        
+        .logo { width: 110px; height: 110px; border-radius: 50%; border: 4px solid #d4af37; margin: -55px auto 20px; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .logo img { width: 100%; height: 100%; object-fit: cover; }
+        
         .input-group { text-align: right; margin-bottom: 15px; }
-        input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; }
-        .login-btn { width: 100%; padding: 14px; background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #ddd; box-sizing: border-box; font-size: 1rem; }
+        
+        /* زر دخول كبير وواضح */
+        .login-btn { width: 100%; padding: 18px; background: #1a1a1a; color: #d4af37; border: 2px solid #d4af37; border-radius: 12px; font-weight: bold; font-size: 1.3rem; cursor: pointer; transition: 0.3s; }
+        .login-btn:active { transform: scale(0.98); }
         .error { color: red; font-size: 0.8rem; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
     <div class="login-card">
+        <span class="quran-verse">وَقُل رَّبِّ زِدْنِي عِلْمًا</span>
         <div class="logo"><img src="logo.jpg"></div>
-        <h3>منصة طالب كلية القلم</h3>
+        <h3 style="margin-top: 0;">منصة طالب كلية القلم</h3>
         <div class="input-group">
-            <label>اسم المستخدم</label>
-            <input type="text" id="username" placeholder="12345678">
+            <input type="text" id="username" placeholder="اسم المستخدم (12345678)">
         </div>
         <div class="input-group">
-            <label>كلمة المرور</label>
-            <input type="password" id="password" placeholder="00000000">
+            <input type="password" id="password" placeholder="كلمة المرور (00000000)">
         </div>
         <button class="login-btn" onclick="login()">دخول للمنصة</button>
         <p id="error-msg" class="error">بيانات الدخول غير صحيحة!</p>
@@ -35,8 +42,6 @@
         function login() {
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
-
-            // التحقق من البيانات الافتراضية أو البيانات التي غيرها المستخدم
             const savedUser = localStorage.getItem('app_user') || '12345678';
             const savedPass = localStorage.getItem('app_pass') || '00000000';
 
