@@ -1,223 +1,84 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl" id="mainHtml">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al-Qalam Platform</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Tajawal:wght@400;700&display=swap');
+<script>
+    let currentLang = 'ar';
 
-        :root {
-            --gold: #d4af37;
-            --dark-blue: #2c3e50;
-            --main-bg: linear-gradient(135deg, #b2dfdb 0%, #e0f2f1 100%); 
-        }
-
-        body { 
-            font-family: 'Tajawal', sans-serif; 
-            background: var(--main-bg); 
-            display: flex; 
-            flex-direction: column;
-            justify-content: space-between; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            padding: 40px 0;
-            box-sizing: border-box;
-        }
-
-        /* زر تبديل اللغة الذكي */
-        .lang-toggle {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-        }
-        #langBtn {
-            padding: 8px 20px;
-            border-radius: 20px;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 0px #aaa;
-            transition: 0.3s;
-            font-family: 'Tajawal', sans-serif;
-        }
-        .btn-ar { background-color: var(--gold); color: white; }
-        .btn-en { background-color: var(--dark-blue); color: white; }
-
-        /* الآية القرآنية في منتصف المساحة العلوية */
-        .quran-verse { 
-            font-family: 'Aref Ruqaa', serif;
-            color: var(--gold); 
-            font-size: 2rem; 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            margin-top: 20px;
-        }
-
-        .login-card { 
-            background: white; 
-            padding: 45px 30px 30px; 
-            border-radius: 35px; 
-            width: 85%; 
-            max-width: 380px; 
-            text-align: center; 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1), 0 0 15px rgba(212, 175, 55, 0.2);
-            position: relative;
-            margin: 60px 0;
-        }
+    function toggleLanguage() {
+        const html = document.getElementById('mainHtml');
+        const btn = document.getElementById('langBtn');
         
-        .logo { 
-            width: 130px; height: 130px; 
-            border-radius: 50%; 
-            border: 5px solid var(--gold); 
-            margin: -110px auto 10px; 
-            background: white; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            display: flex; align-items: center; justify-content: center; 
-            overflow: hidden;
+        if (currentLang === 'ar') {
+            currentLang = 'en';
+            html.dir = 'ltr';
+            html.lang = 'en';
+            btn.innerText = 'AR';
+            btn.className = 'btn-en';
+            updateTexts('en');
+        } else {
+            currentLang = 'ar';
+            html.dir = 'rtl';
+            html.lang = 'ar';
+            btn.innerText = 'EN';
+            btn.className = 'btn-ar';
+            updateTexts('ar');
         }
-        .logo img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* الوقت والتاريخ بخط زر الدخول ولون أسود */
-        .date-time {
-            margin-bottom: 25px;
-            color: #000;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .input-group { margin-bottom: 20px; }
-        
-        input { 
-            width: 100%; padding: 16px; 
-            border-radius: 15px; 
-            border: 1px solid #ddd; 
-            box-sizing: border-box; 
-            font-size: 1rem;
-            background: #fdfdfd;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 6px 0px #e0e0e0;
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        .login-btn { 
-            width: 100%; padding: 18px; 
-            background: var(--dark-blue); 
-            color: var(--gold); 
-            border: none; 
-            border-radius: 15px; 
-            font-weight: bold; 
-            font-size: 1.3rem; 
-            cursor: pointer; 
-            box-shadow: 0 8px 0px #1a252f, 0 12px 20px rgba(0,0,0,0.2);
-            font-family: 'Tajawal', sans-serif;
-        }
-        .login-btn:active { transform: translateY(5px); box-shadow: 0 3px 0px #1a252f; }
-
-        .falcon-brand {
-            color: #5d6d6e;
-            font-size: 0.95rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="lang-toggle">
-        <button id="langBtn" class="btn-ar" onclick="toggleLanguage()">EN</button>
-    </div>
-
-    <div class="quran-verse" id="verse">وَقُل رَّبِّ زِدْنِي عِلْمًا</div>
-
-    <div class="login-card">
-        <div class="logo"><img src="logo.jpg"></div>
-        
-        <div class="date-time" id="clock"></div>
-        
-        <h3 id="title" style="color: #333; margin: 0 0 25px 0;">منصة طالب كلية القلم</h3>
-        
-        <div class="input-group">
-            <input type="text" id="username" placeholder="اسم المستخدم 12345678">
-        </div>
-        <div class="input-group">
-            <input type="password" id="password" placeholder="كلمة المرور 00000000">
-        </div>
-        
-        <button class="login-btn" id="loginBtn" onclick="login()">دخول للمنصة</button>
-    </div>
-
-    <div class="falcon-brand" id="brand">نموذج Falcon التجريبي</div>
-
-    <script>
-        let currentLang = 'ar';
-
-        function toggleLanguage() {
-            const html = document.getElementById('mainHtml');
-            const btn = document.getElementById('langBtn');
-            
-            if (currentLang === 'ar') {
-                // تحويل للإنجليزي
-                currentLang = 'en';
-                html.dir = 'ltr';
-                html.lang = 'en';
-                btn.innerText = 'AR';
-                btn.className = 'btn-en';
-                updateTexts('en');
-            } else {
-                // تحويل للعربي
-                currentLang = 'ar';
-                html.dir = 'rtl';
-                html.lang = 'ar';
-                btn.innerText = 'EN';
-                btn.className = 'btn-ar';
-                updateTexts('ar');
-            }
-            updateClock();
-        }
-
-        function updateTexts(lang) {
-            const texts = {
-                ar: {
-                    verse: "وَقُل رَّبِّ زِدْنِي عِلْمًا",
-                    title: "منصة طالب كلية القلم",
-                    user: "اسم المستخدم 12345678",
-                    pass: "كلمة المرور 00000000",
-                    login: "دخول للمنصة",
-                    brand: "نموذج Falcon التجريبي"
-                },
-                en: {
-                    verse: "And say: My Lord, increase me in knowledge",
-                    title: "Al-Qalam Student Platform",
-                    user: "Username 12345678",
-                    pass: "Password 00000000",
-                    login: "Login to Platform",
-                    brand: "Falcon Demo Version"
-                }
-            };
-            
-            document.getElementById('verse').innerText = texts[lang].verse;
-            document.getElementById('title').innerText = texts[lang].title;
-            document.getElementById('username').placeholder = texts[lang].user;
-            document.getElementById('password').placeholder = texts[lang].pass;
-            document.getElementById('loginBtn').innerText = texts[lang].login;
-            document.getElementById('brand').innerText = texts[lang].brand;
-        }
-
-        function updateClock() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            const langCode = currentLang === 'ar' ? 'ar-EG' : 'en-US';
-            document.getElementById('clock').innerHTML = now.toLocaleDateString(langCode, options);
-        }
-        
-        setInterval(updateClock, 60000);
         updateClock();
+    }
 
-        function login() {
-            // منطق تسجيل الدخول كما هو
+    function updateTexts(lang) {
+        const texts = {
+            ar: {
+                verse: "وَقُل رَّبِّ زِدْنِي عِلْمًا",
+                title: "منصة طالب كلية القلم",
+                user: "اسم المستخدم 12345678",
+                pass: "كلمة المرور 00000000",
+                login: "دخول للمنصة",
+                brand: "نموذج Falcon التجريبي",
+                wrong: "بيانات الدخول غير صحيحة"
+            },
+            en: {
+                verse: "And say: My Lord, increase me in knowledge",
+                title: "Al-Qalam Student Platform",
+                user: "Username 12345678",
+                pass: "Password 00000000",
+                login: "Login to Platform",
+                brand: "Falcon Demo Version",
+                wrong: "Invalid login credentials"
+            }
+        };
+        
+        document.getElementById('verse').innerText = texts[lang].verse;
+        document.getElementById('title').innerText = texts[lang].title;
+        document.getElementById('username').placeholder = texts[lang].user;
+        document.getElementById('password').placeholder = texts[lang].pass;
+        document.getElementById('loginBtn').innerText = texts[lang].login;
+        document.getElementById('brand').innerText = texts[lang].brand;
+        window.wrongMsg = texts[lang].wrong; // حفظ رسالة الخطأ حسب اللغة
+    }
+
+    function updateClock() {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        const langCode = currentLang === 'ar' ? 'ar-EG' : 'en-US';
+        document.getElementById('clock').innerHTML = now.toLocaleDateString(langCode, options);
+    }
+    
+    setInterval(updateClock, 60000);
+    updateClock();
+
+    // دالة الدخول المصلحة
+    function login() {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+
+        // التحقق من البيانات (تأكد أنك تدخل هذه الأرقام بالضبط)
+        if (user === '12345678' && pass === '00000000') {
+            // الخطوة السحرية: حفظ حالة الدخول
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('user_real_name', 'مصعب العاقب');
+            
+            // الانتقال للوحة التحكم
             window.location.href = 'dashboard.html';
+        } else {
+            alert(window.wrongMsg || "بيانات الدخول غير صحيحة");
         }
-    </script>
-</body>
-</html>
+    }
+</script>
