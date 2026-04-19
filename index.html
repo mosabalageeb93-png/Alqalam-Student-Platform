@@ -11,8 +11,8 @@
         :root {
             --gold: #d4af37;
             --dark: #1a1a1a;
-            --glass: rgba(255, 255, 255, 0.9);
-            --shadow-3d: 0 10px 0px #b89a30, 0 15px 25px rgba(0,0,0,0.2);
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow-3d: 0 8px 0px #b89a30, 0 15px 25px rgba(0,0,0,0.2);
         }
 
         body {
@@ -23,8 +23,9 @@
             flex-direction: column;
             align-items: center;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             color: #fff;
+            overflow-x: hidden;
         }
 
         /* زر تبديل اللغة */
@@ -40,112 +41,106 @@
             cursor: pointer;
             border: none;
             box-shadow: 0 4px 0px #8e7426;
-            transition: 0.2s;
+            z-index: 100;
         }
-        .lang-switch:active { transform: translateY(3px); box-shadow: none; }
+
+        /* تعديل وضع الآية القرآنية لتكون متوسطة وظاهرة تماماً */
+        .quran-container {
+            width: 100%;
+            height: 120px; /* مساحة مخصصة للآية فقط */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
 
         .quran-verse {
             font-family: 'Aref Ruqaa', serif;
             color: var(--gold);
-            font-size: 2.2rem;
-            margin: 40px 0 20px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            font-size: 1.6rem; /* تصغير الحجم حسب طلبك */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             text-align: center;
+            white-space: nowrap;
         }
 
         .login-card {
             background: var(--glass);
-            padding: 50px 30px 40px;
+            padding: 60px 25px 40px;
             border-radius: 40px;
-            width: 100%;
+            width: 90%;
             max-width: 380px;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
             position: relative;
+            margin-top: 80px; /* ترك مساحة للشعار */
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
         }
 
         .logo-3d {
-            width: 130px; height: 130px;
+            width: 120px; height: 120px;
             border-radius: 50%;
-            border: 6px solid var(--gold);
-            margin: -115px auto 25px;
+            border: 5px solid var(--gold);
+            position: absolute;
+            top: -60px; /* نصف الشعار خارج الكرت */
+            left: 50%;
+            transform: translateX(-50%);
             background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             overflow: hidden;
+            z-index: 10;
         }
         .logo-3d img { width: 100%; height: 100%; object-fit: cover; }
 
-        .input-group {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .input-group i {
-            position: absolute;
-            right: 15px;
-            top: 18px;
-            color: var(--dark);
-            font-size: 1.2rem;
-        }
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-group i { position: absolute; right: 15px; top: 18px; color: var(--dark); font-size: 1.1rem; }
 
         input {
             width: 100%;
-            padding: 18px 50px 18px 15px;
-            border-radius: 20px;
+            padding: 16px 45px 16px 15px;
+            border-radius: 18px;
             border: 1px solid #ddd;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-family: 'Tajawal', sans-serif;
             background: #fff;
-            box-shadow: inset 0 3px 5px rgba(0,0,0,0.1), 0 6px 0px #eee;
-            transition: 0.3s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 5px 0px #eee;
             box-sizing: border-box;
         }
 
-        input:focus { outline: none; border-color: var(--gold); box-shadow: 0 8px 0px #ddd; }
-
         .login-btn-3d {
             width: 100%;
-            padding: 20px;
+            padding: 18px;
             background: var(--gold);
             color: var(--dark);
             border: none;
-            border-radius: 20px;
+            border-radius: 18px;
             font-weight: bold;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             cursor: pointer;
             box-shadow: var(--shadow-3d);
-            transition: 0.1s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            margin-top: 10px;
         }
 
-        .login-btn-3d:active {
-            transform: translateY(6px);
-            box-shadow: 0 4px 0px #b89a30;
-        }
+        .login-btn-3d:active { transform: translateY(4px); box-shadow: 0 4px 0px #b89a30; }
 
-        .footer-info {
-            margin-top: 30px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: rgba(255,255,255,0.7);
-        }
+        .footer-info { margin-top: auto; padding: 20px; font-weight: bold; color: rgba(255,255,255,0.5); font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
     <button class="lang-switch" id="langBtn" onclick="toggleLanguage()">EN</button>
 
-    <div class="quran-verse">وَقُل رَّبِّ زِدْنِي عِلْمًا</div>
+    <div class="quran-container">
+        <div class="quran-verse" id="verse">وَقُل رَّبِّ زِدْنِي عِلْمًا</div>
+    </div>
 
     <div class="login-card">
         <div class="logo-3d"><img src="logo.jpg"></div>
         
-        <h2 id="ui-title" style="color: var(--dark); margin-bottom: 30px;">منصة طالب كلية القلم</h2>
+        <h3 id="ui-title" style="color: var(--dark); margin: 10px 0 25px 0;">منصة طالب كلية القلم</h3>
         
         <div class="input-group">
             <i class="fas fa-user-graduate"></i>
@@ -179,10 +174,9 @@
                 html.dir = 'ltr';
                 btn.innerText = 'AR';
                 updateUI('en');
-                // تعديل مكان الأيقونات في الإنجليزي
                 userIcon.style.right = 'auto'; userIcon.style.left = '15px';
                 passIcon.style.right = 'auto'; passIcon.style.left = '15px';
-                document.querySelectorAll('input').forEach(i => i.style.padding = '18px 15px 18px 50px');
+                document.querySelectorAll('input').forEach(i => i.style.padding = '16px 15px 16px 45px');
             } else {
                 currentLang = 'ar';
                 html.dir = 'rtl';
@@ -190,7 +184,7 @@
                 updateUI('ar');
                 userIcon.style.left = 'auto'; userIcon.style.right = '15px';
                 passIcon.style.left = 'auto'; passIcon.style.right = '15px';
-                document.querySelectorAll('input').forEach(i => i.style.padding = '18px 50px 18px 15px');
+                document.querySelectorAll('input').forEach(i => i.style.padding = '16px 45px 16px 15px');
             }
         }
 
@@ -208,13 +202,11 @@
         function login() {
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
-
             if (user === '12345678' && pass === '00000000') {
                 localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('user_real_name', 'مصعب العاقب');
                 window.location.href = 'dashboard.html';
             } else {
-                alert(currentLang === 'ar' ? "بيانات الدخول غير صحيحة" : "Invalid Login Details");
+                alert(currentLang === 'ar' ? "بيانات الدخول غير صحيحة" : "Invalid Login");
             }
         }
     </script>
