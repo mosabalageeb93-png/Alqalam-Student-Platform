@@ -1,37 +1,210 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="mainHtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة كلية القلم - تسجيل الدخول</title>
+    <title>منصة Falcon - كلية القلم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Tajawal:wght@400;700&display=swap');
-        :root { --gold: #d4af37; --dark: #2c3e50; }
-        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #b2dfdb 0%, #e0f2f1 100%); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .quran-verse { font-family: 'Aref Ruqaa', serif; color: var(--gold); font-size: 1.8rem; margin: 30px 0; text-align: center; }
-        .login-card { background: white; padding: 40px 30px; border-radius: 30px; width: 100%; max-width: 360px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.1); position: relative; margin-top: 50px; }
-        .logo { width: 120px; height: 120px; border-radius: 50%; border: 5px solid var(--gold); margin: -100px auto 20px; background: white; overflow: hidden; }
-        .logo img { width: 100%; height: 100%; object-fit: cover; }
-        input { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 15px; border: 1px solid #ddd; box-sizing: border-box; font-size: 1rem; }
-        .login-btn { width: 100%; padding: 15px; background: var(--dark); color: var(--gold); border: none; border-radius: 15px; font-weight: bold; font-size: 1.2rem; cursor: pointer; }
-        .brand { margin-top: 30px; color: #666; font-weight: bold; }
+
+        :root {
+            --gold: #d4af37;
+            --dark: #1a1a1a;
+            --glass: rgba(255, 255, 255, 0.9);
+            --shadow-3d: 0 10px 0px #b89a30, 0 15px 25px rgba(0,0,0,0.2);
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+        }
+
+        /* زر تبديل اللغة */
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--gold);
+            color: var(--dark);
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 0px #8e7426;
+            transition: 0.2s;
+        }
+        .lang-switch:active { transform: translateY(3px); box-shadow: none; }
+
+        .quran-verse {
+            font-family: 'Aref Ruqaa', serif;
+            color: var(--gold);
+            font-size: 2.2rem;
+            margin: 40px 0 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .login-card {
+            background: var(--glass);
+            padding: 50px 30px 40px;
+            border-radius: 40px;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .logo-3d {
+            width: 130px; height: 130px;
+            border-radius: 50%;
+            border: 6px solid var(--gold);
+            margin: -115px auto 25px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+        .logo-3d img { width: 100%; height: 100%; object-fit: cover; }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-group i {
+            position: absolute;
+            right: 15px;
+            top: 18px;
+            color: var(--dark);
+            font-size: 1.2rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px 50px 18px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            background: #fff;
+            box-shadow: inset 0 3px 5px rgba(0,0,0,0.1), 0 6px 0px #eee;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus { outline: none; border-color: var(--gold); box-shadow: 0 8px 0px #ddd; }
+
+        .login-btn-3d {
+            width: 100%;
+            padding: 20px;
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-3d);
+            transition: 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-btn-3d:active {
+            transform: translateY(6px);
+            box-shadow: 0 4px 0px #b89a30;
+        }
+
+        .footer-info {
+            margin-top: 30px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.7);
+        }
     </style>
 </head>
 <body>
 
+    <button class="lang-switch" id="langBtn" onclick="toggleLanguage()">EN</button>
+
     <div class="quran-verse">وَقُل رَّبِّ زِدْنِي عِلْمًا</div>
 
     <div class="login-card">
-        <div class="logo"><img src="logo.jpg" alt="Logo"></div>
-        <h3 style="margin-bottom: 25px;">منصة طالب كلية القلم</h3>
-        <input type="text" id="username" placeholder="اسم المستخدم (12345678)">
-        <input type="password" id="password" placeholder="كلمة المرور (00000000)">
-        <button class="login-btn" onclick="login()">دخول للمنصة</button>
+        <div class="logo-3d"><img src="logo.jpg"></div>
+        
+        <h2 id="ui-title" style="color: var(--dark); margin-bottom: 30px;">منصة طالب كلية القلم</h2>
+        
+        <div class="input-group">
+            <i class="fas fa-user-graduate"></i>
+            <input type="text" id="username" placeholder="الرقم الجامعي">
+        </div>
+
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="كلمة المرور">
+        </div>
+
+        <button class="login-btn-3d" onclick="login()">
+            <span id="ui-login">دخول للمنصة</span>
+            <i class="fas fa-paper-plane"></i>
+        </button>
     </div>
 
-    <div class="brand">نموذج Falcon التجريبي</div>
+    <div class="footer-info">FALCON SYSTEM v2.0</div>
 
     <script>
+        let currentLang = 'ar';
+
+        function toggleLanguage() {
+            const html = document.getElementById('mainHtml');
+            const btn = document.getElementById('langBtn');
+            const userIcon = document.querySelector('.fa-user-graduate');
+            const passIcon = document.querySelector('.fa-lock');
+
+            if (currentLang === 'ar') {
+                currentLang = 'en';
+                html.dir = 'ltr';
+                btn.innerText = 'AR';
+                updateUI('en');
+                // تعديل مكان الأيقونات في الإنجليزي
+                userIcon.style.right = 'auto'; userIcon.style.left = '15px';
+                passIcon.style.right = 'auto'; passIcon.style.left = '15px';
+                document.querySelectorAll('input').forEach(i => i.style.padding = '18px 15px 18px 50px');
+            } else {
+                currentLang = 'ar';
+                html.dir = 'rtl';
+                btn.innerText = 'EN';
+                updateUI('ar');
+                userIcon.style.left = 'auto'; userIcon.style.right = '15px';
+                passIcon.style.left = 'auto'; passIcon.style.right = '15px';
+                document.querySelectorAll('input').forEach(i => i.style.padding = '18px 50px 18px 15px');
+            }
+        }
+
+        function updateUI(lang) {
+            const dictionary = {
+                ar: { title: "منصة طالب كلية القلم", user: "الرقم الجامعي", pass: "كلمة المرور", login: "دخول للمنصة" },
+                en: { title: "Al-Qalam Student Platform", user: "Student ID", pass: "Password", login: "Access Platform" }
+            };
+            document.getElementById('ui-title').innerText = dictionary[lang].title;
+            document.getElementById('username').placeholder = dictionary[lang].user;
+            document.getElementById('password').placeholder = dictionary[lang].pass;
+            document.getElementById('ui-login').innerText = dictionary[lang].login;
+        }
+
         function login() {
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
@@ -41,14 +214,9 @@
                 localStorage.setItem('user_real_name', 'مصعب العاقب');
                 window.location.href = 'dashboard.html';
             } else {
-                alert("بيانات الدخول غير صحيحة");
+                alert(currentLang === 'ar' ? "بيانات الدخول غير صحيحة" : "Invalid Login Details");
             }
         }
-        
-        // مسح أي كاش قديم عند التحميل لضمان نظافة الصفحة
-        window.onload = function() {
-            console.log("Falcon System Ready");
-        };
     </script>
 </body>
 </html>
