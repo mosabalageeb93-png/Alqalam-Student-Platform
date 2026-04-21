@@ -1,114 +1,87 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" id="mainHtml">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة Falcon - كلية القلم</title>
+    <title>منصة الصقور التعليمية | Falcon Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Tajawal:wght@400;700&display=swap');
-        :root { --gold: #d4af37; --dark: #1a1a1a; --glass: rgba(255, 255, 255, 0.95); }
-        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); min-height: 100vh; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; color: #fff; overflow-x: hidden; }
-        .lang-switch { position: absolute; top: 20px; left: 20px; background: var(--gold); color: var(--dark); padding: 8px 15px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; box-shadow: 0 4px 0px #8e7426; z-index: 100; }
-        .quran-container { width: 100%; height: 120px; display: flex; justify-content: center; align-items: center; margin-top: 30px; }
-        .quran-verse { font-family: 'Aref Ruqaa', serif; color: var(--gold); font-size: 1.6rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; }
-        .login-card { background: var(--glass); padding: 60px 25px 40px; border-radius: 40px; width: 90%; max-width: 380px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.4); position: relative; margin-top: 80px; backdrop-filter: blur(10px); }
-        .logo-3d { width: 120px; height: 120px; border-radius: 50%; border: 5px solid var(--gold); position: absolute; top: -60px; left: 50%; transform: translateX(-50%); background: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); overflow: hidden; z-index: 10; }
-        .logo-3d img { width: 100%; height: 100%; object-fit: cover; }
-        .input-group { position: relative; margin-bottom: 20px; }
-        .input-group i { position: absolute; right: 15px; top: 18px; color: var(--dark); font-size: 1.1rem; }
-        input { width: 100%; padding: 16px 45px 16px 15px; border-radius: 18px; border: 1px solid #ddd; font-size: 0.95rem; background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05), 0 5px 0px #eee; box-sizing: border-box; }
-        .login-btn-3d { width: 100%; padding: 18px; background: var(--gold); color: var(--dark); border: none; border-radius: 18px; font-weight: bold; font-size: 1.2rem; cursor: pointer; box-shadow: 0 8px 0px #b89a30; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .login-btn-3d:active { transform: translateY(4px); box-shadow: 0 4px 0px #b89a30; }
-        .footer-info { margin-top: auto; padding: 20px; font-weight: bold; color: rgba(255,255,255,0.5); font-size: 0.8rem; }
+        :root { --primary: #2c3e50; --accent: #3498db; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-card { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        .logo { font-size: 3rem; color: var(--primary); margin-bottom: 1rem; }
+        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        button { width: 95%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+        button:hover { background: var(--accent); }
+        .lang-switch { margin-top: 15px; cursor: pointer; color: var(--accent); text-decoration: underline; }
     </style>
 </head>
 <body>
 
-    <button class="lang-switch" id="langBtn" onclick="toggleLanguage()">EN</button>
+<div class="login-card">
+    <div class="logo"><i class="fas fa-paper-plane"></i></div>
+    <h2 id="title">دخول المنصة</h2>
+    <input type="text" id="username" placeholder="رقم الجلوس">
+    <input type="password" id="password" placeholder="كلمة المرور">
+    <button id="ui-login" onclick="login()">دخول المنصة</button>
+    <div class="lang-switch" onclick="toggleLang()" id="langBtn">English</div>
+</div>
 
-    <div class="quran-container">
-        <div class="quran-verse">وَقُل رَّبِّ زِدْنِي عِلْمًا</div>
-    </div>
+<script>
+    let currentLang = 'ar';
+    const API_URL = "https://falcon-backend-delta.vercel.app";
 
-    <div class="login-card">
-        <div class="logo-3d"><img src="logo.jpg"></div>
-        <h3 id="ui-title" style="color: var(--dark); margin: 10px 0 25px 0;">منصة طالب كلية القلم</h3>
-        <div class="input-group">
-            <i class="fas fa-user-graduate"></i>
-            <input type="text" id="username" placeholder="الرقم الجامعي">
-        </div>
-        <div class="input-group">
-            <i class="fas fa-lock"></i>
-            <input type="password" id="password" placeholder="كلمة المرور">
-        </div>
-        <button class="login-btn-3d" onclick="login()">
-            <span id="ui-login">دخول للمنصة</span>
-            <i class="fas fa-paper-plane"></i>
-        </button>
-    </div>
+    function toggleLang() {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        document.getElementById('title').innerText = currentLang === 'ar' ? 'دخول المنصة' : 'Platform Login';
+        document.getElementById('username').placeholder = currentLang === 'ar' ? 'رقم الجلوس' : 'Seat Number';
+        document.getElementById('password').placeholder = currentLang === 'ar' ? 'كلمة المرور' : 'Password';
+        document.getElementById('ui-login').innerText = currentLang === 'ar' ? 'دخول المنصة' : 'Access Platform';
+        document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English' : 'عربي';
+        document.body.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+    }
 
-    <div class="footer-info">FALCON SYSTEM v2.0</div>
+    async function login() {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const btn = document.getElementById('ui-login');
 
-    <script>
-        let currentLang = 'ar';
+        if (!user || !pass) {
+            alert(currentLang === 'ar' ? "الرجاء إدخال البيانات" : "Please enter credentials");
+            return;
+        }
 
-        function toggleLanguage() {
-            const html = document.getElementById('mainHtml');
-            const btn = document.getElementById('langBtn');
-            const userIcon = document.querySelector('.fa-user-graduate');
-            const passIcon = document.querySelector('.fa-lock');
-            if (currentLang === 'ar') {
-                currentLang = 'en'; html.dir = 'ltr'; btn.innerText = 'AR'; updateUI('en');
-                userIcon.style.right = 'auto'; userIcon.style.left = '15px';
-                passIcon.style.right = 'auto'; passIcon.style.left = '15px';
-                document.querySelectorAll('input').forEach(i => i.style.padding = '16px 15px 16px 45px');
+        const originalText = btn.innerText;
+        btn.innerText = currentLang === 'ar' ? "...جاري التحقق" : "Verifying...";
+        btn.disabled = true;
+
+        try {
+            const response = await fetch(`${API_URL}/api/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ seatNumber: user, password: pass })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                // تخزين البيانات للانتقال للوحة التحكم
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('user_real_name', result.student.name);
+                localStorage.setItem('display-id', result.student.seatNumber);
+                window.location.href = 'dashboard.html';
             } else {
-                currentLang = 'ar'; html.dir = 'rtl'; btn.innerText = 'EN'; updateUI('ar');
-                userIcon.style.left = 'auto'; userIcon.style.right = '15px';
-                passIcon.style.left = 'auto'; passIcon.style.right = '15px';
-                document.querySelectorAll('input').forEach(i => i.style.padding = '16px 45px 16px 15px');
+                alert(result.message || (currentLang === 'ar' ? "بيانات الدخول غير صحيحة" : "Login Failed"));
             }
+        } catch (error) {
+            console.error(error);
+            alert(currentLang === 'ar' ? "فشل الاتصال بالسيرفر! تأكد من الإنترنت" : "Connection Failed!");
+        } finally {
+            btn.innerText = originalText;
+            btn.disabled = false;
         }
+    }
+</script>
 
-        function updateUI(lang) {
-            const dictionary = {
-                ar: { title: "منصة طالب كلية القلم", user: "الرقم الجامعي", pass: "كلمة المرور", login: "دخول للمنصة" },
-                en: { title: "Al-Qalam Student Platform", user: "Student ID", pass: "Password", login: "Access Platform" }
-            };
-            document.getElementById('ui-title').innerText = dictionary[lang].title;
-            document.getElementById('username').placeholder = dictionary[lang].user;
-            document.getElementById('password').placeholder = dictionary[lang].pass;
-            document.getElementById('ui-login').innerText = dictionary[lang].login;
-        }
-
-        async function login() {
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-            const uiLoginBtn = document.getElementById('ui-login');
-            uiLoginBtn.innerText = currentLang === 'ar' ? "جاري التحقق..." : "Verifying...";
-            try {
-                const response = await fetch('https://falcon-backend-henna.vercel.app/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: user, password: password })
-                });
-                const result = await response.json();
-                if (response.ok) {
-                    localStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('user_real_name', result.name);
-                    localStorage.setItem('student_id', result.student_id);
-                    localStorage.setItem('batch', result.batch);
-                    window.location.href = 'dashboard.html';
-                } else {
-                    alert(currentLang === 'ar' ? result.message : "Login Failed");
-                    uiLoginBtn.innerText = currentLang === 'ar' ? "دخول للمنصة" : "Access Platform";
-                }
-            } catch (error) {
-                alert(currentLang === 'ar' ? "فشل الاتصال بسيرفر Vercel! راجع الإنترنت" : "Vercel Server Connection Failed! Check Internet");
-                uiLoginBtn.innerText = currentLang === 'ar' ? "دخول للمنصة" : "Access Platform";
-            }
-        }
-    </script>
 </body>
 </html>
